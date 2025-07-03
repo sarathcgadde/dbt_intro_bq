@@ -1,0 +1,74 @@
+
+version: 2
+
+models:
+  - name: stg_orders
+    description: "Orders"
+    columns:
+      - name: order_id
+        description: "unique order ID"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "The foreign key for this table, customer ID"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
+      - name: order_date
+        description: "Date when the order was placed"
+      - name: status
+        description: "order status"
+        data_tests:
+          - accepted_values:
+              values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
+    config:
+      materialized: incremental
+      partition_by:
+        field: order_date
+        data_type: date
+      unique_key: order_id
+      incremental_strategy: merge
+      merge_exclude_columns:
+        - customer_id
+      schema: fulfilment_stg
+      tags:
+        - daily
+      persist_docs:
+        relation: true
+        columns: true
+  - name: stg_payments
+    description: "Payments"
+    columns:
+      - name: payment_id
+        description: "unique payment ID"
+        data_tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: "The foreign key for this table, order ID"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
+      - name: payment_date
+        description: "Date when the payment was made"
+      - name: status
+        description: "payment status"
+        data_tests:
+          - accepted_values:
+              values: ['success', 'fail']
+      - name: payment_method
+        description: "payment method"
+        data_tests:
+          - accepted_values:
+              values: ['credit_card', 'bank_transfer', 'coupon', 'gift_card']
+      - name: amount
+        description: "Amount paid"
+        data_tests:
+          - value_between:
+              min_value: 0
+              max_value: 100

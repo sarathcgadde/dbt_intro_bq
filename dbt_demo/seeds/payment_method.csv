@@ -1,0 +1,5 @@
+payment_method,payment_flag
+"bank_transfer",1
+"credit_card",2
+"gift_card",3
+"coupon",4

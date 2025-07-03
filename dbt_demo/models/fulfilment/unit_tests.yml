@@ -1,0 +1,44 @@
+unit_tests:
+  - name: orders_incremental_model_full_refresh_mode
+    model: stg_orders
+    overrides:
+      macros:
+        # unit test this model in "full refresh" mode
+        is_incremental: false 
+    given:
+      - input: source('jaffle_shop', 'orders')
+        rows:
+          - {id: 1, user_id: 1, order_date: '2020-01-01', status: 'completed'}
+      - input: ref('order_status')
+        rows:
+          - {status: 'completed', status_group: 'closed'}
+    expect:
+      rows:
+        - {order_id: 1, customer_id: 1, order_date: '2020-01-01', status: 'completed', status_group: 'closed'}
+
+  - name: orders_incremental_model_incremental_mode
+    model: stg_orders
+    overrides:
+      macros:
+        # unit test this model in "incremental" mode
+        is_incremental: true 
+    given:
+      - input: source('jaffle_shop', 'orders')
+        rows:
+          - {id: 1, user_id: 1, order_date: '2021-01-01', status: 'returned'}
+          - {id: 2, user_id: 2, order_date: '2020-01-01', status: 'completed'}
+          - {id: 3, user_id: 1, order_date: '2020-01-01', status: 'completed'}
+      - input: ref('order_status')
+        rows:
+          - {status: 'completed', status_group: 'closed'}
+          - {status: 'returned', status_group: 'closed'}
+      - input: this 
+        # contents of current my_incremental_model
+        rows:
+          - {order_id: 1, customer_id: 1, order_date: '2020-01-01', status: 'completed', status_group: 'closed'}
+    expect:
+      # what will be inserted/merged into my_incremental_model
+      rows:
+        - {order_id: 1, customer_id: 1, order_date: '2021-01-01', status: 'returned', status_group: 'closed'}
+        - {order_id: 2, customer_id: 2, order_date: '2020-01-01', status: 'completed', status_group: 'closed'}
+        - {order_id: 3, customer_id: 1, order_date: '2020-01-01', status: 'completed', status_group: 'closed'}

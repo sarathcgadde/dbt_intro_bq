@@ -1,0 +1,10 @@
+dbt_demo:
+  target: dev_bigquery
+  outputs:
+    dev_bigquery:
+      type: bigquery
+      method: oauth
+      project: dbt-workshop-atf-whs
+      dataset: analytics
+      location: US
+      threads: 4

@@ -1,0 +1,65 @@
+
+version: 2
+
+models:
+  - name: stg_customers
+    description: "customers"
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+        data_type: int
+        constraints:
+          - type: not_null
+          - type: primary_key
+        data_tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: "{{ doc('first_name') }}"
+        data_type: string
+        policy_tags:
+          - 'projects/dbt-workshop-atf-whs/locations/us/taxonomies/1516650952357664939/policyTags/8636504914740293241'
+      - name: last_name
+        description: "{{ doc('last_name') }}"
+        data_type: string
+  
+  - name: int_customers
+    description: "customers view with orders"
+    columns: 
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+        data_tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: "{{ doc('first_name') }}"
+        policy_tags:
+          - 'projects/dbt-workshop-atf-whs/locations/us/taxonomies/1516650952357664939/policyTags/8636504914740293241'
+      - name: last_name
+        description: "{{ doc('last_name') }}"
+      - name: first_order_date
+        description: "First order date of the customer"
+      - name: most_recent_order_date
+        description: "Most recent order date of the customer"
+      - name: number_of_orders
+        description: "Number of orders placed by the customer"
+      
+
+  - name: int_filtered_customers
+    description: "filtered customers view with orders"
+    columns:
+      - name: customer_id
+        description: "{{ doc('customer_id') }}"
+      - name: first_name
+        description: "{{ doc('first_name') }}"
+      - name: last_name
+        description: "{{ doc('last_name') }}"
+      - name: first_order_date
+        description: "First order date of the customer"
+      - name: most_recent_order_date
+        description: "Most recent order date of the customer"
+      - name: number_of_orders
+        description: "Number of orders placed by the customer"  

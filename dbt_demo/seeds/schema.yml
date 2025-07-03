@@ -1,0 +1,35 @@
+version: 2
+
+seeds:
+  - name: order_status
+    config:
+      enabled: true
+      schema: dbt_seed_data
+    description: "Lookup table for order status"
+    columns:
+      - name: status
+        description: "Order status"
+        data_type: string
+        constraints:
+          - type: not_null
+      - name: status_group
+        description: "Group of the order status"
+        data_type: string
+        constraints:
+          - type: not_null
+  - name: payment_method
+    description: "Lookup table for payment methods"
+    config:
+      enabled: true
+      schema: dbt_seed_data
+    columns:
+      - name: payment_method
+        description: "Payment method used for the transaction"
+        data_type: string
+        constraints:
+          - type: not_null
+      - name: payment_flag
+        description: "Flag indicating the type of payment method"
+        data_type: int
+        constraints:
+          - type: not_null

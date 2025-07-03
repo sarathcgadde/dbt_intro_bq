@@ -1,0 +1,18 @@
+version: 2
+
+macros:
+  - name: test_value_between
+    description: "Test if a column's value is between a specified range"
+    arguments:
+      - name: model
+        description: "The model to test"
+        type: string
+      - name: column_name
+        description: "The column to check the value of"
+        type: string
+      - name: min_value
+        description: "The minimum value for the range"
+        type: integer
+      - name: max_value
+        description: "The maximum value for the range"
+        type: integer

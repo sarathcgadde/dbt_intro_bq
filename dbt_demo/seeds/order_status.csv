@@ -1,0 +1,6 @@
+status,status_group
+"placed","in-progress"
+"shipped","in-progress"
+"completed","closed"
+"return_pending","in-progress"
+"returned","closed"
