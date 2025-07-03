@@ -2,7 +2,7 @@ snapshots:
   - name: orders_snapshot
     relation: source('jaffle_shop', 'orders')
     config:
-      schema: fulfilment_stg
+      target_schema: fulfilment_stg
       unique_key: id
       strategy: timestamp
       updated_at: _etl_loaded_at
