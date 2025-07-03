@@ -53,3 +53,7 @@ seeds:
     columns: true
   dbt_demo:
     +quote_columns: true
+
+snapshots:
+  dbt_demo:
+    +target_schema: 'snapshots'

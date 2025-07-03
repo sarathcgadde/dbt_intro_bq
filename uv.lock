@@ -282,7 +282,7 @@ wheels = [
 ]
 
 [[package]]
-name = "dbt-local"
+name = "dbt-intro-bq"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [

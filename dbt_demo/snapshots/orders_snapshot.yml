@@ -1,6 +1,6 @@
 snapshots:
   - name: orders_snapshot
-    resource_path: source('jaffle_shop', 'orders')
+    relation: source('jaffle_shop', 'orders')
     config:
       schema: fulfilment_stg
       unique_key: id
